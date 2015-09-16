@@ -47,9 +47,17 @@ $(document).ready(function () {
     }).fail(handleAJAXError);
   })
 
+  ///////////////////////////////////////////////////////////////////
   $('.word-search-form').on('submit', function (event) {
-    console.log("Handle search here...");
+    event.preventDefault();
+    $.ajax(API_ROOT + '/search', {
+      data: { q: $('input[name=q]', this).val()}
+    }).done(function (data) {
+      $('.word-list ').empty();
+      handleWordList(data);
+    });
   });
+/////////////////////////////////////////////////////////////////////
 
   $.ajax(API_ROOT + '/words.json')
     .done(handleWordList)
